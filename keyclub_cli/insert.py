@@ -1,0 +1,16 @@
+import csv
+import sqlite3
+
+#reads csv file as a list of tuples
+with open('roster.csv', newline='') as f:
+    reader = csv.reader(f)
+    data = [tuple(row) for row in reader]
+
+#inserts data into keyclub.sqlite
+conn = sqlite3.connect('keyclub.sqlite')
+c = conn.cursor()
+
+c.executemany('INSERT INTO students VALUES(?,?,?,?)', data)
+
+conn.commit()
+conn.close()
